@@ -1,0 +1,358 @@
+[
+  {
+    "archivo": "ESTADO_DEL_TRABAJO.md",
+    "bytes": 2273
+  },
+  {
+    "archivo": "Guia_Integrante1_GR09.pdf",
+    "bytes": 87226
+  },
+  {
+    "archivo": "LEEME.md",
+    "bytes": 3563
+  },
+  {
+    "archivo": "comprobacion_independiente/LEEME.md",
+    "bytes": 1736
+  },
+  {
+    "archivo": "comprobacion_independiente/VERIFICACION_REALIZADA.txt",
+    "bytes": 481
+  },
+  {
+    "archivo": "comprobacion_independiente/analisis_P_referencia.csv",
+    "bytes": 327
+  },
+  {
+    "archivo": "comprobacion_independiente/ecuaciones_no_lineales_arranque.pdf",
+    "bytes": 20302
+  },
+  {
+    "archivo": "comprobacion_independiente/ecuaciones_no_lineales_arranque.png",
+    "bytes": 72347
+  },
+  {
+    "archivo": "comprobacion_independiente/ecuaciones_no_lineales_arranque_Kp_0.2.csv",
+    "bytes": 638243
+  },
+  {
+    "archivo": "comprobacion_independiente/ecuaciones_no_lineales_arranque_Kp_1.csv",
+    "bytes": 560294
+  },
+  {
+    "archivo": "comprobacion_independiente/ecuaciones_no_lineales_arranque_Kp_5.csv",
+    "bytes": 555963
+  },
+  {
+    "archivo": "comprobacion_independiente/ecuaciones_no_lineales_carga.pdf",
+    "bytes": 20097
+  },
+  {
+    "archivo": "comprobacion_independiente/ecuaciones_no_lineales_carga.png",
+    "bytes": 69753
+  },
+  {
+    "archivo": "comprobacion_independiente/ecuaciones_no_lineales_carga_Kp_0.2.csv",
+    "bytes": 611316
+  },
+  {
+    "archivo": "comprobacion_independiente/ecuaciones_no_lineales_carga_Kp_1.csv",
+    "bytes": 610567
+  },
+  {
+    "archivo": "comprobacion_independiente/ecuaciones_no_lineales_carga_Kp_5.csv",
+    "bytes": 610218
+  },
+  {
+    "archivo": "comprobacion_independiente/ecuaciones_no_lineales_escalon.pdf",
+    "bytes": 19000
+  },
+  {
+    "archivo": "comprobacion_independiente/ecuaciones_no_lineales_escalon.png",
+    "bytes": 62941
+  },
+  {
+    "archivo": "comprobacion_independiente/ecuaciones_no_lineales_escalon_Kp_0.2.csv",
+    "bytes": 635586
+  },
+  {
+    "archivo": "comprobacion_independiente/ecuaciones_no_lineales_escalon_Kp_1.csv",
+    "bytes": 635635
+  },
+  {
+    "archivo": "comprobacion_independiente/ecuaciones_no_lineales_escalon_Kp_5.csv",
+    "bytes": 635346
+  },
+  {
+    "archivo": "comprobacion_independiente/ecuaciones_no_lineales_ruido.pdf",
+    "bytes": 107407
+  },
+  {
+    "archivo": "comprobacion_independiente/ecuaciones_no_lineales_ruido.png",
+    "bytes": 127770
+  },
+  {
+    "archivo": "comprobacion_independiente/ecuaciones_no_lineales_ruido_Kp_0.2.csv",
+    "bytes": 616519
+  },
+  {
+    "archivo": "comprobacion_independiente/ecuaciones_no_lineales_ruido_Kp_1.csv",
+    "bytes": 616148
+  },
+  {
+    "archivo": "comprobacion_independiente/ecuaciones_no_lineales_ruido_Kp_5.csv",
+    "bytes": 615938
+  },
+  {
+    "archivo": "comprobacion_independiente/factibilidad_termica.pdf",
+    "bytes": 18512
+  },
+  {
+    "archivo": "comprobacion_independiente/factibilidad_termica.png",
+    "bytes": 89049
+  },
+  {
+    "archivo": "comprobacion_independiente/factibilidad_termica_referencia.csv",
+    "bytes": 204
+  },
+  {
+    "archivo": "comprobacion_independiente/lineal_arranque.pdf",
+    "bytes": 19845
+  },
+  {
+    "archivo": "comprobacion_independiente/lineal_arranque.png",
+    "bytes": 63766
+  },
+  {
+    "archivo": "comprobacion_independiente/lineal_arranque_Kp_0.2.csv",
+    "bytes": 638464
+  },
+  {
+    "archivo": "comprobacion_independiente/lineal_arranque_Kp_1.csv",
+    "bytes": 637714
+  },
+  {
+    "archivo": "comprobacion_independiente/lineal_arranque_Kp_5.csv",
+    "bytes": 637702
+  },
+  {
+    "archivo": "comprobacion_independiente/lineal_carga.pdf",
+    "bytes": 19914
+  },
+  {
+    "archivo": "comprobacion_independiente/lineal_carga.png",
+    "bytes": 64505
+  },
+  {
+    "archivo": "comprobacion_independiente/lineal_carga_Kp_0.2.csv",
+    "bytes": 611353
+  },
+  {
+    "archivo": "comprobacion_independiente/lineal_carga_Kp_1.csv",
+    "bytes": 611095
+  },
+  {
+    "archivo": "comprobacion_independiente/lineal_carga_Kp_5.csv",
+    "bytes": 611130
+  },
+  {
+    "archivo": "comprobacion_independiente/lineal_escalon.pdf",
+    "bytes": 18895
+  },
+  {
+    "archivo": "comprobacion_independiente/lineal_escalon.png",
+    "bytes": 60361
+  },
+  {
+    "archivo": "comprobacion_independiente/lineal_escalon_Kp_0.2.csv",
+    "bytes": 635598
+  },
+  {
+    "archivo": "comprobacion_independiente/lineal_escalon_Kp_1.csv",
+    "bytes": 635525
+  },
+  {
+    "archivo": "comprobacion_independiente/lineal_escalon_Kp_5.csv",
+    "bytes": 635471
+  },
+  {
+    "archivo": "comprobacion_independiente/lineal_ruido.pdf",
+    "bytes": 107449
+  },
+  {
+    "archivo": "comprobacion_independiente/lineal_ruido.png",
+    "bytes": 126486
+  },
+  {
+    "archivo": "comprobacion_independiente/lineal_ruido_Kp_0.2.csv",
+    "bytes": 616371
+  },
+  {
+    "archivo": "comprobacion_independiente/lineal_ruido_Kp_1.csv",
+    "bytes": 616182
+  },
+  {
+    "archivo": "comprobacion_independiente/lineal_ruido_Kp_5.csv",
+    "bytes": 615972
+  },
+  {
+    "archivo": "comprobacion_independiente/metricas_referencia_python.csv",
+    "bytes": 6236
+  },
+  {
+    "archivo": "comprobacion_independiente/sens_P_aire_200.csv",
+    "bytes": 599459
+  },
+  {
+    "archivo": "comprobacion_independiente/sens_P_masa_mas20.csv",
+    "bytes": 635477
+  },
+  {
+    "archivo": "comprobacion_independiente/sens_P_masa_menos20.csv",
+    "bytes": 635592
+  },
+  {
+    "archivo": "comprobacion_independiente/sens_P_natural.csv",
+    "bytes": 562836
+  },
+  {
+    "archivo": "comprobacion_independiente/sens_P_nominal.csv",
+    "bytes": 635635
+  },
+  {
+    "archivo": "comprobacion_independiente/sens_P_operacion_10C.csv",
+    "bytes": 723863
+  },
+  {
+    "archivo": "comprobacion_independiente/sensibilidad_P_referencia.csv",
+    "bytes": 1849
+  },
+  {
+    "archivo": "comprobacion_independiente/verificar_referencia.py",
+    "bytes": 9394
+  },
+  {
+    "archivo": "ejecutar_integrante1.m",
+    "bytes": 525
+  },
+  {
+    "archivo": "guias/01_empezar.md",
+    "bytes": 4579
+  },
+  {
+    "archivo": "guias/02_entender_control.md",
+    "bytes": 4752
+  },
+  {
+    "archivo": "guias/03_entender_codigo_y_modelos.md",
+    "bytes": 6671
+  },
+  {
+    "archivo": "guias/04_metricas_y_resultados.md",
+    "bytes": 6796
+  },
+  {
+    "archivo": "guias/05_sensibilidad_y_entrega_al_grupo.md",
+    "bytes": 6815
+  },
+  {
+    "archivo": "guias/06_preguntas_para_revisar_y_fuentes.md",
+    "bytes": 4157
+  },
+  {
+    "archivo": "informe/IEEEtran.cls",
+    "bytes": 281957
+  },
+  {
+    "archivo": "informe/LEEME.md",
+    "bytes": 1482
+  },
+  {
+    "archivo": "informe/avance_integrante1.tex",
+    "bytes": 1268
+  },
+  {
+    "archivo": "informe/secciones_integrante1.tex",
+    "bytes": 11858
+  },
+  {
+    "archivo": "matlab/agregar_control_P.m",
+    "bytes": 3072
+  },
+  {
+    "archivo": "matlab/analisis_P.m",
+    "bytes": 1534
+  },
+  {
+    "archivo": "matlab/base_tarea1/peltier_validacion.slx",
+    "bytes": 237059
+  },
+  {
+    "archivo": "matlab/comparar_sensibilidad.m",
+    "bytes": 1156
+  },
+  {
+    "archivo": "matlab/comprobar_metricas.m",
+    "bytes": 875
+  },
+  {
+    "archivo": "matlab/configurar.m",
+    "bytes": 903
+  },
+  {
+    "archivo": "matlab/crear_modelos_P.m",
+    "bytes": 6204
+  },
+  {
+    "archivo": "matlab/editar_ensayos.m",
+    "bytes": 1090
+  },
+  {
+    "archivo": "matlab/equilibrio_peltier.m",
+    "bytes": 363
+  },
+  {
+    "archivo": "matlab/factibilidad_termica.m",
+    "bytes": 1509
+  },
+  {
+    "archivo": "matlab/graficar_P.m",
+    "bytes": 1870
+  },
+  {
+    "archivo": "matlab/metricas_lazo.m",
+    "bytes": 2947
+  },
+  {
+    "archivo": "matlab/parametros.mat",
+    "bytes": 829
+  },
+  {
+    "archivo": "matlab/parametros_ensayos.mat",
+    "bytes": 1008
+  },
+  {
+    "archivo": "matlab/revisar_compensador.m",
+    "bytes": 1791
+  },
+  {
+    "archivo": "matlab/sensibilidad_P.m",
+    "bytes": 2317
+  },
+  {
+    "archivo": "matlab/sensibilidad_compensado.m",
+    "bytes": 2847
+  },
+  {
+    "archivo": "matlab/simular_P.m",
+    "bytes": 3928
+  },
+  {
+    "archivo": "matlab/temperatura_fria.m",
+    "bytes": 232
+  },
+  {
+    "archivo": "resultados_matlab/LEEME.txt",
+    "bytes": 288
+  }
+]

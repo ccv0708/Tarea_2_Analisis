@@ -1,0 +1,6 @@
+Equilibrio nominal: residuo menor que 1e-13 K/s.
+24 ensayos integrados con RK45: señales finitas y corriente entre 0 y 6.4 A.
+Error lineal del escalón coincide con fórmula DC dentro de 2e-5 K.
+Definiciones de métricas comprobadas con exponencial conocida, error residual y saturación constante.
+6 casos de sensibilidad P; natural y 200 LFM marcados como extrapolación térmica.
+Python usa generador NumPy; el ruido concreto no coincide muestra por muestra con rng de MATLAB.
