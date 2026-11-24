@@ -1,0 +1,63 @@
+% Responsables: Integrante 1 (análisis base) e Integrante 2 (lugar de las
+% raíces, perturbaciones y límite de corriente)
+\section{Análisis del controlador proporcional}\label{sec:P}
+La función de transferencia nominal es
+\begin{equation}
+G(s)=\frac{-0.291898s-0.00424337}{s^2+0.0563263s+0.000410735}.\label{eq:G}
+\end{equation}
+Con la convención de la ecuación~\eqref{eq:error}, el lazo equivale a una realimentación negativa sobre la planta de acción inversa
+\begin{equation}
+G_p(s)=-G(s)=\frac{0.2919\,s+0.004243}{s^2+0.05633\,s+0.0004107}\ \left[\mathrm{K/A}\right].\label{eq:Gp}
+\end{equation}
+Sin saturación, la transferencia de referencia a salida y el polinomio característico son
+\begin{align}
+ T_P(s)&=\frac{-K_pG(s)}{1-K_pG(s)},\\
+ D_P(s)&=s^2+(0.0563263+0.291898K_p)s\notag\\
+ &\quad +(0.000410735+0.00424337K_p).\label{eq:carP}
+\end{align}
+Los coeficientes son positivos para $K_p>0$ y el criterio de segundo orden establece estabilidad del modelo lineal nominal. Esta conclusión es local: no demuestra regulación global con saturación ni con variaciones grandes de temperatura.
+
+La Figura~\ref{fig:lgrP} muestra el lugar de las raíces: una rama va del polo $-0.0086\,\mathrm{s^{-1}}$ al cero $-0.0145\,\mathrm{s^{-1}}$ y la otra parte de $-0.0477\,\mathrm{s^{-1}}$ hacia $-\infty$. Los polos siempre son reales, por lo que el modelo lineal no presenta sobrepaso con ningún $K_p$.
+
+\begin{figure}[!tbp]\centering
+\includegraphics[width=\columnwidth]{lgr_P}
+\caption{Lugar de las raíces de $K_pG_p(s)$ para $0\le K_p\le3\,\mathrm{A/K}$. A la derecha, acercamiento a la región cercana al origen. Fuente: elaboración propia con MATLAB R2025a.}\label{fig:lgrP}
+\end{figure}
+
+Para un escalón de referencia de magnitud $|\Delta r|$, la magnitud del error estacionario lineal es
+\begin{equation}
+ |e_{ss}|=\frac{|\Delta r|}{1-K_pG(0)}\simeq\frac{|\Delta r|}{1+10.331K_p}.\label{eq:essP}
+\end{equation}
+El error que usa el controlador es $T_b-T_{\rm ref}$; en las tablas se reporta también su magnitud para facilitar la comparación. La fórmula anterior corresponde a un cambio de referencia respecto del equilibrio. En un arranque que retorna al punto nominal, el sesgo $I_0$ puede permitir error final cero si el sistema converge y no recibe perturbaciones constantes.
+
+Las perturbaciones se tratan de la misma forma. Con los balances de la Tarea~1, un cambio de la temperatura ambiente llega a la salida por $G_d(s)=\Delta T_b/\Delta T_{\rm amb}$, con $G_d(0)=0.918\,\mathrm{K/K}$, y una carga de calor $Q$ aplicada al bloque llega por $G_q(s)=(C_Hs+g_H)/D_G(s)$, con $G_q(0)=2.51\,\mathrm{K/W}$. Para un escalón de $+5\,\mathrm K$ en $T_{\rm amb}$ y una carga de $2\,\mathrm W$, las desviaciones permanentes son
+\begin{equation}
+\Delta T_{b,ss}=\frac{4.59\,\mathrm K}{1+10.33\,K_p}\quad\text{y}\quad\Delta T_{b,ss}=\frac{5.02\,\mathrm K}{1+10.33\,K_p}.\label{eq:essD}
+\end{equation}
+La Tabla~\ref{tab:P_analitico} resume el comportamiento lineal para cinco ganancias. El error disminuye con $K_p$, pero solo se anula con ganancia infinita. Además, el esfuerzo de control inicial es $\Delta I(0^+)=K_p\,|\Delta T_{\rm ref}|$, porque $G_p(s)$ es estrictamente propia: reducir el error con ganancia aumenta proporcionalmente la corriente.
+
+\begin{table}[!tbp]\centering
+\caption{Desempeño lineal del control P (escalón de referencia de $1\,\mathrm K$, $+5\,\mathrm K$ en $T_{\rm amb}$ y carga de $2\,\mathrm W$).}\label{tab:P_analitico}
+{\tableformat\setlength{\tabcolsep}{2.2pt}
+\begin{tabular}{@{}ccccccc@{}}\toprule
+\shortstack{$K_p$\\{[A/K]}} & \shortstack{$e_{ss}$\\{[\%]}} & \shortstack{$t_s$ (2\,\%)\\{[s]}} & \shortstack{$\Delta I_{\max}$\\{[A]}} & \shortstack{$\Delta T_{b,ss}$\\$T_{\rm amb}$ [K]} & \shortstack{$\Delta T_{b,ss}$\\2\,W [K]} & \shortstack{Polos\\{[$\mathrm{s^{-1}}$]}}\\\midrule
+0.2 & 32.6 & 176.5 & 0.20 & 1.497 & 1.636 & $-0.1024$, $-0.0123$\\
+0.5 & 16.2 & 106.7 & 0.50 & 0.744 & 0.813 & $-0.1889$, $-0.0134$\\
+1.0 & 8.8 & 57.0 & 1.00 & 0.405 & 0.443 & $-0.3343$, $-0.0139$\\
+2.0 & 4.6 & 11.5 & 2.00 & 0.212 & 0.232 & $-0.6259$, $-0.0142$\\
+5.0 & 1.9 & 3.0 & 5.00 & 0.087 & 0.095 & $-1.5014$, $-0.0144$\\\bottomrule
+\end{tabular}}
+\par\smallskip\footnotesize Fuente: elaboración propia con \texttt{diseno\_compensador.m}.
+\end{table}
+
+El aumento de ganancia reduce el error, pero uno de los polos se aproxima al cero de la planta, situado cerca de $-0.01454\,\mathrm{s}^{-1}$. Deben examinarse tanto su posición como la amplitud de su contribución a la salida: un tiempo de subida corto no excluye una cola lenta.
+
+En el arranque, el mando inicial solicitado es $I_0+20K_p$. Para las ganancias de $0.2$, $1$ y $5\,\mathrm{A/K}$ se obtienen $5.190$, $21.190$ y $101.190\,\mathrm A$, de modo que con el límite de $2\,\mathrm A$ las tres arrancan saturadas. El calentamiento Joule y el aumento de temperatura del disipador hacen necesario contrastar el arranque lineal con la planta no lineal.
+
+\subsection{Límite útil de la corriente}\label{sec:limite}
+La corriente máxima de la hoja de datos es $6.4\,\mathrm A$ \cite{hb}, pero ese valor no sirve como límite del controlador. La Figura~\ref{fig:limite} repite la curva estática de la Tarea~1: la temperatura de equilibrio del bloque alcanza su mínimo, $-1.05\,^\circ\mathrm C$, con $2.42\,\mathrm A$. Para corrientes mayores, el calor Joule y el calor que regresa desde el lado caliente dominan sobre el bombeo Peltier, de modo que más corriente \emph{calienta} el bloque. En esa zona la ganancia de la planta cambia de signo y la realimentación se vuelve positiva. Si el controlador puede llegar a $6.4\,\mathrm A$, en el arranque se satura arriba, el bloque se calienta, el error crece y la corriente se queda en el máximo: el bloque termina en $46.4\,^\circ\mathrm C$ (Figura~\ref{fig:arranque}). Por eso se limita la salida del controlador a $0\le I\le2.0\,\mathrm A$, un $17\,\%$ por debajo del mínimo de la curva.
+
+\begin{figure}[!tbp]\centering
+\includegraphics[width=\columnwidth]{limite_corriente}
+\caption{Temperatura de equilibrio del bloque en función de la corriente con ventilador de $400\,\mathrm{LFM}$, límite elegido para el controlador ($2\,\mathrm A$) y corriente máxima de la TEC1-12706 ($6.4\,\mathrm A$) \cite{hb}. Fuente: elaboración propia a partir del modelo de la Tarea~1.}\label{fig:limite}
+\end{figure}

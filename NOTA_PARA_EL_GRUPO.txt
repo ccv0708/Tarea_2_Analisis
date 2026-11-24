@@ -1,0 +1,51 @@
+TAREA 2 - GR09 - Avance del Integrante 2 (diseno del compensador)
+=================================================================
+
+1) LIMITE DE CORRIENTE: usar 0 a 2.0 A, NO 0 a 6.4 A
+   La curva estatica de la Tarea 1 tiene su minimo en 2.42 A. Arriba de esa
+   corriente, mas corriente CALIENTA el bloque y la realimentacion se vuelve
+   positiva. Con limite de 6.4 A, el arranque se queda pegado en 6.4 A y el
+   bloque termina a 46 C. Esto aplica a los modelos de Simulink del
+   Integrante 1 (control P) y del Integrante 3 (control PI).
+   INTEGRANTE 1: en parametros_ensayos.mat cambiar Imax de 6.4 a 2.0.
+   Esto explica el fallo de arranque con Kp = 1 y 5 que ya les aparecia
+   en la comprobacion independiente.
+
+2) SIGNO DEL ERROR
+   La planta tiene ganancia negativa (-10.33 K/A). Usar  e = Tb - Tref
+   con ganancias positivas. Corriente aplicada:  I = I0 + salida del controlador,
+   con I0 = 1.19 A, y despues la saturacion de 0 a 2 A.
+
+3) CONTROLADOR DISENADO (PI)
+   Kc = 0.75 A/K
+   Ti = 116.2 s
+   Ki = Kc/Ti = 0.006456 A/(K*s)
+   Bloque "PID Controller" de Simulink: forma paralela, P = Kc, I = Ki, D = 0,
+   limites de salida y anti-windup "Clamping".
+   Si la salida del PID es dI (y se suma I0 despues): limites [-I0, 2 - I0].
+   Si se suma I0 antes de la saturacion: limites [0, 2].
+
+4) ARCHIVOS
+   matlab/diseno_compensador.m y matlab/simular_arranque.m -> copiar ambos a la carpeta matlab/ del proyecto
+                                    (necesita parametros.mat y datos/estatica.txt)
+                                    Genera figuras_diseno/*.pdf y parametros_control.mat
+   informe/secciones_integrante2.tex -> \input{} en el informe
+   informe/bib_integrante2.tex       -> referencias nuevas para la bibliografia
+   En el preambulo del informe, para que diga "Figura" y "Tabla":
+     \addto\captionsspanish{\renewcommand{\figurename}{Figura}\renewcommand{\tablename}{Tabla}}
+
+5) PRUEBAS QUE TIENEN QUE HACER IGUAL P Y PI (para la comparacion)
+   - Escalon de referencia de -1 K desde el equilibrio (5 C, 1.19 A)
+   - Carga de 2 W en el bloque (la misma prueba del integrante 1)
+   - Escalon de +5 K en Tamb (solo modelo lineal, en mi script)
+   - Arranque desde 25 C con Tref = 5 C (modelo Simscape)
+   Los valores previstos estan en la tabla de prediccion de mis secciones.
+
+6) parametros_control.mat ya trae numC = [Kc Ki] y denC = [1 0], que es lo
+   que piden revisar_compensador.m y sensibilidad_compensado.m del integrante 1.
+
+7) CASOS SIN VENTILADOR (sensibilidad)
+   Con 200 LFM la minima Tb posible es 6.71 C y en conveccion natural 20.1 C.
+   Ahi la referencia de 5 C no se puede alcanzar: el PI se va al limite de 2 A.
+   En conveccion natural, con 2 A el bloque llega a unos 63 C. Es una
+   limitacion fisica, no un error del controlador; va en la discusion.

@@ -1,0 +1,30 @@
+% Responsables: Integrante 1 (sensibilidad, tarea 1.6) e Integrante 2
+% (compromisos de diseño, tarea 2.6)
+\section{Discusión}\label{sec:discusion}
+\subsection{Sensibilidad paramétrica y limitaciones}\label{sec:sensibilidad}
+Se preparó la repetición del escalón nominal variando $R_{HA}$ entre $1.29$, $2.11$ y $8.4\,\mathrm{K/W}$, la masa fría en $\pm20\%$ y el punto de operación a $10\,{}^\circ\mathrm C$. Se mantienen las ganancias. Para el cambio de masa se conserva la resistencia térmica y se modifica la capacidad de almacenamiento; para el punto de $10\,{}^\circ\mathrm C$ se recalcula el sesgo de equilibrio de ambos controladores y se usa un escalón de $10$ a $9\,{}^\circ\mathrm C$.
+
+Antes de atribuir diferencias al controlador se evaluó la factibilidad estática con los balances de la planta. Un barrido de corrientes de $0$ a $6.4\,\mathrm A$, con paso de $0.001\,\mathrm A$, produjo los mínimos aproximados de la Tabla~\ref{tab:factibilidad}. Se excluyeron equilibrios inestables y temperaturas absolutas no físicas.
+
+\begin{table}[!tbp]\centering
+\caption{Factibilidad calculada con el modelo térmico de Tarea 1.}
+\label{tab:factibilidad}
+\footnotesize
+\begin{tabular}{@{}ccc@{}}\toprule
+Disipación&$T_{b,\min}$ [$^\circ$C]&Corriente [A]\\\midrule
+400 LFM&$-1.053$&2.421\\
+200 LFM&6.710&1.681\\
+Natural&20.146&0.495\\\bottomrule
+\end{tabular}
+\par\smallskip\footnotesize Fuente: elaboración propia.
+\end{table}
+Según estas hipótesis, $5\,{}^\circ\mathrm C$ no es un equilibrio alcanzable con 200 LFM ni con convección natural. Un compensador no elimina esta restricción física. En tales casos deben discutirse saturación, rechazo térmico y validez de las temperaturas predichas, en lugar de exigir cumplimiento de una referencia imposible.
+
+El estudio P está programado y se dispone de una referencia auxiliar de las ecuaciones. La ley de control compensada ya está definida (Sección~\ref{sec:diseno}); la repetición de estos casos con el PI queda condicionada al modelo compensado del integrante 3. \pendiente{resultados de sensibilidad con P y con PI.}
+
+\subsection{Compromisos de diseño}\label{sec:compromisos}
+La ganancia $K_c$ concentra el principal compromiso del diseño. Un valor mayor acelera la respuesta y reduce el pico ante perturbaciones (Figura~\ref{fig:barrido}), pero exige más corriente, satura antes y amplifica el ruido de cuantización del sensor: cada paso de $0.0625\,\mathrm K$ produce un salto de $K_c\times0.0625\approx0.05\,\mathrm A$ en la corriente. El límite de $2\,\mathrm A$ también es un compromiso, porque protege el lazo contra la inversión de la ganancia a costa de no aprovechar toda la capacidad de enfriamiento de la celda.
+
+La cancelación del polo lento hace que la respuesta a la referencia sea rápida ($158.6\,\mathrm s$), pero deja ese polo en la respuesta a perturbaciones, que tarda $300\,\mathrm s$ en volver a $\pm0.1\,\mathrm K$. Además, la cancelación depende de los parámetros: el polo de $-0.0086\,\mathrm{s^{-1}}$ cambia con la resistencia del disipador y con las masas, que siguen siendo provisionales. Si la cancelación no es exacta, aparece un par polo--cero cercano que agrega una cola lenta de poca amplitud, pero no compromete la estabilidad, porque la ecuación~\eqref{eq:carPI} tiene coeficientes positivos para cualquier $K_c$. El efecto de estas variaciones se cuantifica en la Sección~\ref{sec:sensibilidad}.
+
+El límite de $2\,\mathrm A$ se eligió con el disipador ventilado a $400\,\mathrm{LFM}$. Si el ventilador falla, el mínimo de la curva estática se desplaza a corrientes menores y queda por encima de $5\,^\circ\mathrm C$ (Tabla~\ref{tab:factibilidad}). En esos casos la referencia de $5\,^\circ\mathrm C$ es inalcanzable con cualquier controlador, el integrador lleva la corriente al límite y, en convección natural, el equilibrio con $2\,\mathrm A$ queda en $63\,^\circ\mathrm C$. Por eso el sistema real necesita detectar la falla del ventilador, por ejemplo con la temperatura del lado caliente, y reducir la corriente. Como mejoras futuras se proponen una prealimentación de la temperatura ambiente para acelerar el rechazo de perturbaciones y un límite de corriente que dependa de la temperatura del lado caliente.

@@ -1,0 +1,21 @@
+% Responsable: Integrante 2 (tarea 2.3 del plan)
+\section{Selección del compensador}\label{sec:seleccion}
+El análisis anterior muestra que la deficiencia del control P está en el régimen permanente y en el rechazo de perturbaciones, no en el transitorio. Los polos de lazo cerrado son reales, no hay sobrepaso y, como se verá en la Sección~\ref{sec:diseno}, el margen de fase es amplio. La Tabla~\ref{tab:seleccion} compara las estructuras consideradas frente a estas deficiencias.
+
+\begin{table}[!tbp]\centering
+\caption{Comparación de estructuras de compensación para la planta de la ecuación~\eqref{eq:Gp}.}\label{tab:seleccion}
+{\tableformat
+\begin{tabularx}{\columnwidth}{lcL}\toprule
+Estructura & $e_{ss}=0$ & Comentario\\\midrule
+P & No & No cumple E1, E4 y E6 a la vez (Sección~\ref{sec:especificaciones}).\\
+PD / adelanto & No & Mejoran la fase y la rapidez, que no son el problema. La acción derivativa amplifica los saltos de cuantización del sensor ($0.0625\,\mathrm K$).\\
+Atraso & No & Reduce el error, pero no lo anula; requiere una ganancia en DC muy alta para cumplir E6.\\
+PID & Sí & Cumple, pero la parte derivativa no aporta nada y agrega sensibilidad al ruido.\\
+\textbf{PI} & \textbf{Sí} & El integrador vuelve el lazo tipo~1: error nulo ante escalones de referencia y de perturbación constante. Es la estructura más sencilla que corrige la deficiencia observada.\\\bottomrule
+\end{tabularx}}
+\par\smallskip\footnotesize Fuente: elaboración propia con base en \cite{ogata}.
+\end{table}
+
+Se selecciona un controlador PI. Su efecto esperado es agregar un polo en el origen, que anula el error permanente, y un cero real que se ubica para no hacer más lento el lazo. Como la planta ya tiene un margen de fase grande, la pérdida de fase que introduce el integrador a bajas frecuencias no compromete la estabilidad.
+
+Por la limitación de la Sección~\ref{sec:limite}, la salida del PI se satura entre $0$ y $2\,\mathrm A$. Durante el arranque el error inicial es de $20\,\mathrm K$ y la corriente pasa cerca de $100\,\mathrm s$ saturada. Si el integrador sigue acumulando error en ese tiempo (\emph{windup}), al llegar a la referencia tiene un valor excesivo y el bloque se enfría de más. Por eso el PI se implementa con anti-windup por integración condicional (\emph{clamping}): la integral se congela mientras la salida está saturada \cite{astrom,mw_pid}.

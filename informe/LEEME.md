@@ -1,11 +1,38 @@
-# Aporte al informe
+# Informe Tarea 2 (GR09)
 
-`secciones_integrante1.tex` contiene las secciones para integrar al informe del grupo: implementación, referencia, análisis P, métricas, sensibilidad y conclusiones parciales.
+Documento principal: `informe_tarea2.tex` (formato IEEE, mismo título/autores de la Tarea 1).
+Compilar ese archivo desde esta carpeta (o en Overleaf con la misma estructura).
 
-`avance_integrante1.tex` es un documento IEEE independiente que incluye esas secciones. Para compilar, subir los dos TEX y `IEEEtran.cls` a Overleaf y seleccionar `avance_integrante1.tex` como documento principal. También puede compilarse con una instalación completa de LaTeX que tenga babel en español y TikZ.
+## Secciones (`secciones/`)
 
-Este entorno no dispone del conjunto de paquetes LaTeX necesario para compilar el avance; no se incluye un PDF IEEE validado. Las guías sí se entregan como PDF revisado. La revisión de compilación del TEX permanece pendiente, igual que la integración con las secciones del resto del grupo.
+| Archivo | Contenido | Responsable | Estado |
+|---|---|---|---|
+| 01_introduccion.tex | Introducción | Integrante 3 | Pendiente |
+| 02_sistema_modelo.tex | Sistema y modelo (resumen Tarea 1, imagen Simscape) | Integrante 3 | Pendiente |
+| 03_lazo_cerrado.tex | Referencia, convención de signo, diagrama del lazo P | Integrante 1 | Listo (saturación ya en 0-2 A) |
+| 04_control_P.tex | Análisis P, lugar de las raíces, perturbaciones, límite de 2 A | Integrantes 1 y 2 | Listo |
+| 05_desempeno_P.tex | Pruebas, métricas, comprobación auxiliar | Integrante 1 | Falta repetir con Imax = 2 A y poner figuras Simscape |
+| 06_especificaciones.tex | Tabla de especificaciones E1-E8 | Integrante 2 | Listo |
+| 07_seleccion.tex | Selección del PI y anti-windup | Integrante 2 | Listo |
+| 08_diseno.tex | Diseño del PI y verificación | Integrante 2 | Listo |
+| 09_resultados.tex | Simulación del sistema compensado | Integrante 3 | Pendiente |
+| 10_comparacion.tex | Tabla P vs compensado (columna de especificación lista) | Integrante 3 | Pendiente |
+| 11_discusion.tex | Sensibilidad (I1) y compromisos de diseño (I2) | Integrantes 1 y 2 | Faltan resultados de sensibilidad |
+| 12_conclusiones.tex | Conclusiones | Todos | Parcial |
+| referencias.tex | Bibliografía (las de la Tarea 1 sin citar están comentadas) | Todos | - |
 
-El aporte está identificado como avance. Incluye cálculos analíticos y una tabla auxiliar de las ecuaciones, claramente diferenciada de resultados Simscape. Después de ejecutar MATLAB hay que incorporar las cifras reales, interpretar las curvas, contrastarlas con las predicciones y cerrar las conclusiones. No convertir la redacción pendiente en una afirmación de validación sin hacer la prueba.
+## Convenciones (pedidas por el profesor)
 
-Si existe `../resultados_matlab/simscape_escalon.pdf`, el TEX intenta incluirlo. Si no existe, muestra el aviso de resultado pendiente. Al compilar en Overleaf se puede conservar esa estructura de carpetas o ajustar la ruta a la figura que el grupo haya generado.
+- Referencias en el texto: `Figura~\ref{}`, `Tabla~\ref{}`, `ecuación~\eqref{}`, `ecuaciones~\eqref{} y \eqref{}`.
+- Figuras y diagramas sin colores, con "Fuente: ..." al final del caption.
+- Cuadros de parámetros de componentes con su fuente (`\cite{}`).
+- Cada figura justo después del párrafo que la menciona.
+- `\pendiente{...}` marca lo que falta; no debe quedar ninguno al entregar.
+
+## Figuras
+
+`\graphicspath` busca en `../matlab/figuras_diseno/` (lo genera `diseno_compensador.m`)
+y en `../resultados_matlab/`. En `\includegraphics` se usa solo el nombre del archivo.
+
+`secciones_integrante1.tex` y `avance_integrante1.tex` se reemplazaron por los archivos de `secciones/`
+(el contenido del integrante 1 está en 03, 04, 05, 11 y 12).
