@@ -5,7 +5,7 @@
 configurar;
 archivo_comp = fullfile(salida,'sensibilidad_compensado.csv');
 if ~isfile(archivo_comp)
-    error('Falta sensibilidad_compensado.csv. Vea guia 05 para producirla.');
+    error('Falta sensibilidad_compensado.csv. Vea guias/04_cierre_del_grupo.md.');
 end
 P = readtable(fullfile(salida,'sensibilidad_P.csv'));
 Comp = readtable(archivo_comp);

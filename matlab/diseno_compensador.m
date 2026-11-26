@@ -11,10 +11,12 @@
 
 clear; clc; close all;
 
-load('parametros.mat')   % p, I0, Tc0, Th0, numG, denG, etc.
+carpeta = fileparts(mfilename('fullpath'));
+figuras = fullfile(carpeta,'figuras_diseno');
+load(fullfile(carpeta,'parametros.mat'))   % p, I0, Tc0, Th0, numG, denG, etc.
 
-if ~exist('figuras_diseno', 'dir')
-    mkdir('figuras_diseno');
+if ~isfolder(figuras)
+    mkdir(figuras);
 end
 
 s = tf('s');
@@ -58,7 +60,7 @@ disp(['Ganancia DC de Q a Tb = ' num2str(dcgain(Gq)) ' K/W'])
 %% 2. Límite de corriente
 % En la Tarea 1 la curva Tb(I) tiene un mínimo. Después de ese punto más
 % corriente CALIENTA el bloque, entonces no se puede usar 6.4 A como límite.
-datos_est = readmatrix('datos/estatica.txt');
+datos_est = readmatrix(fullfile(carpeta,'datos','estatica.txt'));
 I_est = datos_est(:,1);
 Tb_est = datos_est(:,4);     % columna de 400 LFM
 
@@ -90,7 +92,7 @@ ylabel('Temperatura de equilibrio T_b [\circC]')
 title('Temperatura de equilibrio del bloque (400 LFM)')
 legend('T_b de equilibrio', 'Mínimo de T_b', 'Límite del controlador (2 A)', ...
        'I_{max} de la hoja de datos (6.4 A)', 'Location', 'north')
-exportgraphics(gcf, 'figuras_diseno/limite_corriente.pdf', 'ContentType', 'vector')
+exportgraphics(gcf, fullfile(figuras,'limite_corriente.pdf'), 'ContentType', 'vector')
 
 
 %% 3. Control proporcional
@@ -152,7 +154,7 @@ xlim([-0.06 0.005])
 ylim([-0.01 0.01])
 xlabel('Parte real [s^{-1}]')
 title('Acercamiento cerca del origen')
-exportgraphics(gcf, 'figuras_diseno/lgr_P.pdf', 'ContentType', 'vector')
+exportgraphics(gcf, fullfile(figuras,'lgr_P.pdf'), 'ContentType', 'vector')
 
 
 %% 4. Especificaciones
@@ -160,7 +162,7 @@ exportgraphics(gcf, 'figuras_diseno/lgr_P.pdf', 'ContentType', 'vector')
 esp_ess = 0.1;       % [K] error permanente máximo
 esp_Mp = 10;         % [%] sobrepaso máximo
 esp_ts = 180;        % [s] tiempo de asentamiento máximo
-esp_dI = 2 - 1.19;   % [A] para un escalón de -1 K no se debe pasar de 2 A
+esp_dI = I_max_ctrl - I0;   % [A] para un escalón de -1 K no se debe pasar de 2 A
 esp_pico = 0.5;      % [K] pico máximo por perturbación (5 K en Tamb o 2 W)
 esp_rec = 400;       % [s] tiempo máximo para volver a +-0.1 K
 esp_MF = 45;         % [grados] margen de fase mínimo
@@ -255,7 +257,7 @@ xlim([0 1.5])
 xlabel('K_c [A/K]')
 ylabel('\DeltaI máximo [A]')
 legend('\DeltaI máximo (escalón de -1 K)', 'Especificación \DeltaI \leq 0.81 A', 'Location', 'northwest')
-exportgraphics(gcf, 'figuras_diseno/barrido_Kc.pdf', 'ContentType', 'vector')
+exportgraphics(gcf, fullfile(figuras,'barrido_Kc.pdf'), 'ContentType', 'vector')
 
 % Paso 3: cumplen de 0.65 a 0.80, se escoge uno en el medio
 Kc = 0.75;
@@ -331,7 +333,7 @@ xlim([-0.06 0.005])
 ylim([-0.01 0.01])
 xlabel('Parte real [s^{-1}]')
 title('Acercamiento (cuadros: K_c = 0.75 A/K)')
-exportgraphics(gcf, 'figuras_diseno/lgr_PI.pdf', 'ContentType', 'vector')
+exportgraphics(gcf, fullfile(figuras,'lgr_PI.pdf'), 'ContentType', 'vector')
 
 % Bode de L(s)
 w = logspace(-4, 1, 500);
@@ -358,7 +360,7 @@ ylim([-200 0])
 xlabel('Frecuencia [rad/s]')
 ylabel('Fase [grados]')
 text(w_MF*1.3, -150, ['MF = ' num2str(round(MF)) ' grados'])
-exportgraphics(gcf, 'figuras_diseno/bode_PI.pdf', 'ContentType', 'vector')
+exportgraphics(gcf, fullfile(figuras,'bode_PI.pdf'), 'ContentType', 'vector')
 
 % Comparación P contra PI (mismo Kp = Kc = 0.75)
 T_P = feedback(0.75*Gp, 1);
@@ -392,7 +394,7 @@ grid on
 xlim([0 600])
 xlabel('Tiempo [s]')
 ylabel('\DeltaI [A]')
-exportgraphics(gcf, 'figuras_diseno/escalon_P_PI.pdf', 'ContentType', 'vector')
+exportgraphics(gcf, fullfile(figuras,'escalon_P_PI.pdf'), 'ContentType', 'vector')
 
 d_LA = step(5*Gd, t);
 d_P = step(5*D_P, t);
@@ -420,13 +422,14 @@ grid on
 xlabel('Tiempo [s]')
 ylabel('\DeltaT_b [K]')
 title('Carga de 2 W en el bloque (modelo lineal)')
-exportgraphics(gcf, 'figuras_diseno/perturbacion_P_PI.pdf', 'ContentType', 'vector')
+exportgraphics(gcf, fullfile(figuras,'perturbacion_P_PI.pdf'), 'ContentType', 'vector')
 
 
 %% 7. Prueba rápida con el modelo no lineal (arranque desde 25 C)
 % Se usa Euler con las ecuaciones de la Tarea 1. La función está en
 % simular_arranque.m. La prueba formal se hace en Simscape.
 Tref = 5;
+% El caso de 6.4 A es solo un diagnostico historico; no es un limite operativo.
 [t1, Tb1, I1] = simular_arranque(p, I0, Kc, Ki, Tref, 6.4, 1);   % límite 6.4 A
 [t2, Tb2, I2] = simular_arranque(p, I0, Kc, Ki, Tref, 2, 0);     % 2 A sin anti-windup
 [t3, Tb3, I3] = simular_arranque(p, I0, Kc, Ki, Tref, 2, 1);     % 2 A con anti-windup
@@ -470,17 +473,19 @@ xlim([0 1500])
 ylim([0 7])
 xlabel('Tiempo [s]')
 ylabel('Corriente I [A]')
-exportgraphics(gcf, 'figuras_diseno/arranque_nl.pdf', 'ContentType', 'vector')
+exportgraphics(gcf, fullfile(figuras,'arranque_nl.pdf'), 'ContentType', 'vector')
 
 
 %% 8. Guardar para Simulink
 % Bloque PID Controller: P = Kc, I = Ki, D = 0, anti-windup Clamping,
-% límites de salida de 0 a 2 A (si I0 se suma antes de saturar).
+% El PID entrega dI: sus limites INTERNOS son [-I0, I_max_ctrl-I0].
+% Despues se suma I0 y se conserva el limite total [0, 2 A].
+% Una saturacion externa sola no informa al integrador que debe detenerse.
 % la entrada del PID es e = Tb - Tref.
 % numC y denC son los que pide revisar_compensador.m:
 % C(s) = (Kc*s + Ki)/s
 numC = [Kc Ki];
 denC = [1 0];
-save('parametros_control.mat', 'Kc', 'Ki', 'Ti', 'z', 'numC', 'denC', ...
+save(fullfile(carpeta,'parametros_control.mat'), 'Kc', 'Ki', 'Ti', 'z', 'numC', 'denC', ...
      'I_max_ctrl', 'I_min_ctrl', 'Tref', 'I0')
 disp('Se guardó parametros_control.mat')

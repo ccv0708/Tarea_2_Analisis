@@ -1,14 +1,18 @@
 % Autor: GR09, Integrante 1 (completar nombre).
-% Proposito: ejecutar las mismas cuatro pruebas en las dos plantas.
+% Proposito: ejecutar las pruebas comunes en las dos plantas.
 % Entrada: configurar y modelos P. Salida: CSV por ensayo y tabla de metricas.
+preparar_modelos_P;
 modelos = {'peltier_lazo_P_lineal','peltier_lazo_P'};
 nombres = {'lineal','simscape'};
-pruebas = {'escalon','arranque','carga','ruido'};
+pruebas = {'escalon','arranque','carga','ruido','ambiente'};
 resumen = table;
 for planta = 1:2
     modelo = modelos{planta};
     load_system(fullfile(carpeta,[modelo '.slx']));
-    for ensayo = 1:4
+    for ensayo = 1:length(pruebas)
+        if planta==2 && ensayo==5
+            continue;  % el escalon de Tamb se exige solo en la planta lineal
+        end
         for k = 1:length(Kp_lista)
             Kp = Kp_lista(k);
             p = p_nom; case_RHA = p.RHA;
@@ -18,6 +22,7 @@ for planta = 1:2
             instante_ref = t_ref;
             senal_ruido = [tiempo_ruido, zeros(size(tiempo_ruido))];
             senal_carga = [0 0; t_pert 0; t_final 0];
+            senal_ambiente = [0 0; t_final 0];
             inicio = t_pert; banda = 0.02;
             if ensayo==1
                 r_despues = r_antes-1;
@@ -29,6 +34,8 @@ for planta = 1:2
                 senal_carga = [0 0; t_pert Q_pert; t_final Q_pert];
             elseif ensayo==4
                 senal_ruido = [tiempo_ruido, ruido_comun];
+            elseif ensayo==5
+                senal_ambiente = [0 0; t_pert dTamb_pert; t_final dTamb_pert];
             end
             fprintf('Planta %s, prueba %s, Kp = %.2f\n', ...
                 nombres{planta},pruebas{ensayo},Kp);
@@ -49,6 +56,19 @@ for planta = 1:2
                 assert(max(abs(Tb-(Tc0-273.15)-dTb_FT))<1e-4);
             end
             m = metricas_lazo(t,r,Tb,I,inicio,banda,Imin,Imax);
+            m.deltaImax_A = max(abs(I-I0));
+            m.Tb_min_C = min(Tb);
+            m.pico_pert_K = NaN;
+            m.t_rec_01_s = NaN;
+            m.t_arranque_05_s = NaN;
+            if ensayo==3 || ensayo==5
+                m.pico_pert_K = max(abs(Tb(t>=inicio)-r(t>=inicio)));
+                recuperacion = metricas_lazo(t,r,Tb,I,inicio,0.1,Imin,Imax);
+                m.t_rec_01_s = recuperacion.ts_ref_s;
+            elseif ensayo==2
+                arranque = metricas_lazo(t,r,Tb,I,0,0.5,Imin,Imax);
+                m.t_arranque_05_s = arranque.ts_ref_s;
+            end
             m.Th_max_C = max(Th);
             m.extrapolacion = max([Tb;Th])>100;
             if m.extrapolacion
@@ -70,9 +90,10 @@ for planta = 1:2
             ruido = interp1(senal_ruido(:,1),senal_ruido(:,2),t,'previous');
             carga = interp1(senal_carga(:,1),senal_carga(:,2),t,'previous');
             Tb_medida = Tb+ruido;
-            registro = table(t,r,Tb,Th,I,V,Pot,ruido,Tb_medida,carga, ...
+            ambiente_delta = interp1(senal_ambiente(:,1),senal_ambiente(:,2),t,'previous');
+            registro = table(t,r,Tb,Th,I,V,Pot,ruido,Tb_medida,carga,ambiente_delta, ...
                 'VariableNames',{'t_s','ref_C','Tb_C','Th_C','I_A','V_V','P_W', ...
-                'ruido_K','Tb_medida_C','carga_W'});
+                'ruido_K','Tb_medida_C','carga_W','ambiente_delta_K'});
             archivo = sprintf('%s_%s_Kp_%g.csv',nombres{planta},pruebas{ensayo},Kp);
             writetable(registro,fullfile(salida,archivo));
         end

@@ -5,10 +5,13 @@ configurar;
 factibilidad_termica;
 modelo = 'peltier_lazo_comp';
 if ~isfile(fullfile(carpeta,[modelo '.slx']))
-    error('Falta el modelo compensado del Integrante 3. Vea guia 05.');
+    error('Falta el modelo compensado del Integrante 3. Vea guias/04_cierre_del_grupo.md.');
 end
 control = load(fullfile(carpeta,'parametros_control.mat'));
-% El modelo debe usar control.Kp, control.Ki, etc., o numC/denC.
+if control.I_max_ctrl~=Imax || control.I_min_ctrl~=Imin
+    error('Los limites del P y del PI no coinciden. Deben ser 0 y 2 A.');
+end
+% El modelo debe usar control.Kc y control.Ki, o numC/denC.
 if isfield(control,'numC') && isfield(control,'denC')
     numC = control.numC; denC = control.denC;
 elseif isfield(control,'C')

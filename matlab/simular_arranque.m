@@ -27,9 +27,10 @@ for k = 1:length(t)
         I_real = 0;
     end
 
-    % integral (con anti-windup solo se integra si no está saturado)
+    % Clamping: detener solo la integracion que aumentaria la saturacion.
+    % Si el error cambia de signo, se permite descargar el integrador.
     if anti_windup == 1
-        if I_real == I_pedida
+        if I_real == I_pedida || (I_pedida>Imax && e<0) || (I_pedida<0 && e>0)
             integral = integral + e*dt;
         end
     else

@@ -2,9 +2,13 @@
 % Proposito: superponer temperatura, corriente, tension y potencia.
 % Entrada: CSV de simular_P. Salida: figuras PDF vectoriales.
 nombres = {'lineal','simscape'};
-pruebas = {'escalon','arranque','carga','ruido'};
+estilos = {'k-','k--','k:'};
+pruebas = {'escalon','arranque','carga','ruido','ambiente'};
 for planta = 1:2
-    for ensayo = 1:4
+    for ensayo = 1:length(pruebas)
+        if planta==2 && ensayo==5
+            continue;
+        end
         figure;
         for k = 1:length(Kp_lista)
             archivo = sprintf('%s_%s_Kp_%g.csv', ...
@@ -12,13 +16,13 @@ for planta = 1:2
             R = readtable(fullfile(salida,archivo));
             etiqueta = sprintf('Kp = %g A/K',Kp_lista(k));
             subplot(2,2,1);
-            plot(R.t_s,R.Tb_C,'LineWidth',1.2,'DisplayName',etiqueta); hold on;
+            plot(R.t_s,R.Tb_C,estilos{k},'LineWidth',1.2,'DisplayName',etiqueta); hold on;
             subplot(2,2,2);
-            plot(R.t_s,R.I_A,'LineWidth',1.2,'DisplayName',etiqueta); hold on;
+            plot(R.t_s,R.I_A,estilos{k},'LineWidth',1.2,'DisplayName',etiqueta); hold on;
             subplot(2,2,3);
-            plot(R.t_s,R.V_V,'LineWidth',1.2,'DisplayName',etiqueta); hold on;
+            plot(R.t_s,R.V_V,estilos{k},'LineWidth',1.2,'DisplayName',etiqueta); hold on;
             subplot(2,2,4);
-            plot(R.t_s,R.P_W,'LineWidth',1.2,'DisplayName',etiqueta); hold on;
+            plot(R.t_s,R.P_W,estilos{k},'LineWidth',1.2,'DisplayName',etiqueta); hold on;
         end
         subplot(2,2,1);
         plot(R.t_s,R.ref_C,'k--','DisplayName','Referencia');

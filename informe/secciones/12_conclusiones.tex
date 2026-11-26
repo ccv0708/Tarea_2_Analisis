@@ -1,5 +1,0 @@
-% Responsables: los tres. Cerrar después de tener los resultados de Simscape.
-\section{Conclusiones}\label{sec:conclusiones}
-El control P reduce el error local al aumentar la ganancia, con los compromisos de esfuerzo y ruido que deben cuantificarse en las pruebas. La estabilidad lineal nominal no asegura el arranque del sistema físico saturado. La comprobación auxiliar advirtió un fallo de arranque para las dos ganancias mayores con el límite de $6.4\,\mathrm A$, explicado por la inversión de la ganancia de la planta por encima de $2.42\,\mathrm A$. Además, la sensibilidad de la disipación revela límites de factibilidad que requieren distinguir el diseño de control del dimensionamiento térmico.
-
-Ningún valor de $K_p$ cumple a la vez las especificaciones de error, de rechazo de perturbaciones y de esfuerzo de control. Un PI con el cero sobre el polo lento de la planta, $K_c=0.75\,\mathrm{A/K}$, salida limitada a $2\,\mathrm A$ y anti-windup cumple las ocho especificaciones en el modelo lineal y en la comprobación no lineal del arranque. \pendiente{confirmar con Simscape y cerrar con la comparación de la Tabla~\ref{tab:comparacion}.}

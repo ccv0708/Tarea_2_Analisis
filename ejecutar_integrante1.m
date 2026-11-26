@@ -3,13 +3,25 @@
 % Entrada: parametros.mat y parametros_ensayos.mat. Salida: resultados_matlab/.
 clear; clc; close all;
 raiz = fileparts(mfilename('fullpath'));
-addpath(fullfile(raiz,'matlab'));
-configurar;
-analisis_P;
-factibilidad_termica;
-comprobar_metricas;
-crear_modelos_P;
-simular_P;
-graficar_P;
-disp('Ensayos P terminados. Revise los CSV y PDF en resultados_matlab.');
-disp('Para sensibilidad: ejecute sensibilidad_P.');
+cd(raiz);
+addpath(fullfile(raiz,'matlab'),'-begin');
+diary(fullfile(raiz,'registro_ejecucion.txt'));
+disp('GR09 - carpeta consolidada: modelos P con estado de corriente.');
+disp(raiz);
+disp('Archivo de sensibilidad utilizado:');
+disp(which('sensibilidad_P'));
+try
+    configurar;
+    analisis_P;
+    factibilidad_termica;
+    comprobar_metricas;
+    simular_P;
+    graficar_P;
+    sensibilidad_P;
+    disp('Ensayos P y sensibilidad terminados. Revise resultados_matlab.');
+catch error_ejecucion
+    disp(getReport(error_ejecucion,'extended','hyperlinks','off'));
+    diary off;
+    rethrow(error_ejecucion);
+end
+diary off;

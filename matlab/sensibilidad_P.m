@@ -1,7 +1,7 @@
 % Autor: GR09, Integrante 1 (completar nombre).
 % Proposito: evaluar el MISMO P ante variaciones termicas y de operacion.
 % Entrada: modelo P, configurar. Salida: CSV de sensibilidad.
-configurar;
+preparar_modelos_P;
 factibilidad_termica;
 modelo = 'peltier_lazo_P';
 load_system(fullfile(carpeta,[modelo '.slx']));

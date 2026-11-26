@@ -1,6 +1,6 @@
 % Autor: GR09, Integrante 1 (completar nombre).
 % Proposito: comprobacion independiente del controlador del Integrante 2.
-% Entrada: parametros_control.mat; ver el contrato en la guia 05.
+% Entrada: parametros_control.mat; ver guias/04_cierre_del_grupo.md.
 % Salida: polos, ceros y margenes LINEALES. Requiere Control System Toolbox.
 configurar;
 archivo_control = fullfile(carpeta,'parametros_control.mat');
@@ -8,6 +8,9 @@ if ~isfile(archivo_control)
     error('Falta parametros_control.mat del Integrante 2. No hay ganancias inventadas.');
 end
 control = load(archivo_control);  % evita confundir C(s) con la matriz C de la planta
+if control.I_max_ctrl~=Imax || control.I_min_ctrl~=Imin
+    error('Los limites del P y del PI no coinciden. Deben ser 0 y 2 A.');
+end
 if isfield(control,'numC') && isfield(control,'denC')
     Ccontrol = tf(control.numC,control.denC);
 elseif isfield(control,'C')
@@ -17,7 +20,8 @@ else
 end
 G = tf(numG,denG);
 % El controlador se aplica a e=Tb-ref. Ccontrol NO incluye otro cambio de signo.
-L = -Ccontrol*G;
+H = tf(1,[tau_corriente 1]);
+L = -Ccontrol*H*G;
 Tcerrado = feedback(L,1);
 [GM,PM,Wcg,Wcp] = margin(L);
 polos_control = pole(Ccontrol);
